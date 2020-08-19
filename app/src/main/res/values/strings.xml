@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Giphy Gallery</string>
+    <string name="trending">Trending</string>
+    <string name="favourites">Favourites</string>
 </resources>
