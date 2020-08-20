@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.poovam.giphygallery.R
 import com.poovam.giphygallery.favourites.FavouritesFragment
-import com.poovam.giphygallery.trending.TrendingFragment
+import com.poovam.giphygallery.trending.view.TrendingFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
