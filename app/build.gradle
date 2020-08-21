@@ -104,5 +104,10 @@ dependencies {
     /**
      * Third party UI libraries
      */
-    compile 'com.github.varunest:sparkbutton:1.0.6'
+    implementation 'com.github.varunest:sparkbutton:1.0.6'
+
+    /**
+     * Debugging tools
+     */
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 }
