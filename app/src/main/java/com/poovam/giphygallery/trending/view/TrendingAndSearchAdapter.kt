@@ -43,8 +43,7 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifViewHolde
     var onFavouriteClicked: ((TrendingAndSearchModel, setToFavourite: Boolean) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.gif_view, parent, false)
-        return GifViewHolder(view)
+        return GifViewHolder.createViewHolder(parent)
     }
 
 
