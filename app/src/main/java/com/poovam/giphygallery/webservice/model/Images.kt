@@ -1,14 +1,12 @@
 package com.poovam.giphygallery.webservice.model
 
 data class Images(
-    val fixedHeight: FixedHeightImage,
-    val downsizedLarge: DownsizedLargeImage
+    val fixedHeight: Image,
+    val downsizedLarge: Image,
+    val downsized: Image,
+    val previewGif: Image
 )
 
-data class FixedHeightImage(
-    val url: String
-)
-
-data class DownsizedLargeImage(
+data class Image(
     val url: String
 )
