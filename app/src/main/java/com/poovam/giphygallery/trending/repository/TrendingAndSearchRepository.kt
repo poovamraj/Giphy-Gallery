@@ -7,28 +7,38 @@ import androidx.paging.PagedList
 import com.poovam.giphygallery.common.network.NetworkState
 import com.poovam.giphygallery.webservice.model.GifData
 import org.koin.dsl.module
+import androidx.arch.core.util.Function
+import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
 
 val trendingAndSearchRepositoryModule = module {
-    factory { TrendingAndSearchRepository(get()) }
+    factory { TrendingAndSearchRepository<TrendingAndSearchModel>(get()) }
 }
 
 /**
  * Repository pattern is used instead of providing direct access to [GiphyDataSource]
  * since in future there might raise a requirement to store value in DB/Locally during when this
  * abstraction would be useful
+ *
+ *  //TODO explain why generics is used
  */
-class TrendingAndSearchRepository(private val dataSourceFactory: GiphyDataSourceFactory) {
+class TrendingAndSearchRepository<ToValue>(private val dataSourceFactory: GiphyDataSourceFactory) {
 
-    private val gifSource = MediatorLiveData<PagedList<GifData>>()
+    private val gifSource = MediatorLiveData<PagedList<ToValue>>()
 
     private val networkState = MediatorLiveData<NetworkState>()
 
-    fun loadDataSource() {
+    fun loadDataSourceAs(map: Function<GifData, ToValue>) {
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(GiphyDataSource.PAGE_SIZE)
             .build()
-        gifSource.addSource(LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()) {
+
+        val source = LivePagedListBuilder(
+            dataSourceFactory.map(map),
+            pagedListConfig
+        ).build()
+
+        gifSource.addSource(source) {
             gifSource.value = it
         }
         networkState.addSource(dataSourceFactory.getErrorData()) {
@@ -36,7 +46,7 @@ class TrendingAndSearchRepository(private val dataSourceFactory: GiphyDataSource
         }
     }
 
-    fun getGifSource(): LiveData<PagedList<GifData>> {
+    fun getGifSource(): LiveData<PagedList<ToValue>> {
         return gifSource
     }
 

@@ -12,9 +12,9 @@ import com.poovam.giphygallery.R
 import com.poovam.giphygallery.common.network.Error
 import com.poovam.giphygallery.common.network.Loaded
 import com.poovam.giphygallery.common.network.Loading
-import com.poovam.giphygallery.common.view.GifRecyclerAdapter
+import com.poovam.giphygallery.common.view.GifViewModel
+import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
 import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchViewModel
-import com.poovam.giphygallery.webservice.model.GifData
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,7 +32,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = GifRecyclerAdapter(this)
+        val adapter = GifRecyclerAdapter()
         val layoutManager = GridLayoutManager(activity, 2)
         view.recyclerView.layoutManager = layoutManager
         view.recyclerView.adapter = adapter
@@ -44,6 +44,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
         viewModel.favourites.observe(viewLifecycleOwner) {
             it?.let { adapter.favourites = it }
+            adapter.notifyDataSetChanged()
         }
 
         adapter.onFavouriteClicked = this::onFavouriteClicked
@@ -78,7 +79,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.search(query)
     }
 
-    private fun onFavouriteClicked(gifData: GifData, isFavourite: Boolean) {
-        viewModel.onFavouriteClicked(gifData, isFavourite)
+    private fun onFavouriteClicked(gifData: TrendingAndSearchModel, setToFavourite: Boolean) {
+        viewModel.onFavouriteClicked(gifData, setToFavourite)
     }
 }

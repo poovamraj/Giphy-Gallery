@@ -4,7 +4,8 @@ data class Images(
     val fixedHeight: Image,
     val downsizedLarge: Image,
     val downsized: Image,
-    val previewGif: Image
+    val previewGif: Image,
+    val fixedWidthDownsampled: Image
 )
 
 data class Image(
