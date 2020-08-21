@@ -14,6 +14,7 @@ import com.poovam.giphygallery.common.network.Loaded
 import com.poovam.giphygallery.common.network.Loading
 import com.poovam.giphygallery.common.view.GifRecyclerAdapter
 import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchViewModel
+import com.poovam.giphygallery.webservice.model.GifData
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,15 +42,24 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
             adapter.submitList(it)
         }
 
-        viewModel.networkState.observe(viewLifecycleOwner) {
-            it?.let {
-                when (it) {
-                    Loading -> Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show() //TODO Implement UI
-                    Loaded -> Toast.makeText(context, "Loaded", Toast.LENGTH_SHORT).show() //TODO Implement UI
-                    is Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+        viewModel.favourites.observe(viewLifecycleOwner) {
+            it?.let { adapter.favourites = it }
+        }
+
+        adapter.onFavouriteClicked = this::onFavouriteClicked
+
+            viewModel.networkState.observe(viewLifecycleOwner) {
+                it?.let {
+                    when (it) {
+                        Loading -> Toast.makeText(context, "Loading", Toast.LENGTH_SHORT)
+                            .show() //TODO Implement UI
+                        Loaded -> Toast.makeText(context, "Loaded", Toast.LENGTH_SHORT)
+                            .show() //TODO Implement UI
+                        is Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
             }
-        }
 
         view.searchView.setOnQueryTextListener(this)
     }
@@ -66,5 +76,9 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun onSearched(query: String?) {
         viewModel.search(query)
+    }
+
+    private fun onFavouriteClicked(gifData: GifData, isFavourite: Boolean) {
+        viewModel.onFavouriteClicked(gifData, isFavourite)
     }
 }

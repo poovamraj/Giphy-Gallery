@@ -1,6 +1,7 @@
 package com.poovam.giphygallery.trending.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.poovam.giphygallery.common.network.NetworkState
@@ -18,17 +19,29 @@ val trendingAndSearchRepositoryModule = module {
  */
 class TrendingAndSearchRepository(private val dataSourceFactory: GiphyDataSourceFactory) {
 
-    val gifSource: LiveData<PagedList<GifData>>
+    private val gifSource = MediatorLiveData<PagedList<GifData>>()
 
-    val networkState: LiveData<NetworkState>
+    private val networkState = MediatorLiveData<NetworkState>()
 
-    init {
+    fun loadDataSource() {
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(GiphyDataSource.PAGE_SIZE)
             .build()
-        gifSource = LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()
-        networkState = dataSourceFactory.getErrorData()
+        gifSource.addSource(LivePagedListBuilder(dataSourceFactory, pagedListConfig).build()) {
+            gifSource.value = it
+        }
+        networkState.addSource(dataSourceFactory.getErrorData()) {
+            networkState.value = it
+        }
+    }
+
+    fun getGifSource(): LiveData<PagedList<GifData>> {
+        return gifSource
+    }
+
+    fun getNetworkState(): LiveData<NetworkState> {
+        return networkState
     }
 
     fun search(query: String?) {
