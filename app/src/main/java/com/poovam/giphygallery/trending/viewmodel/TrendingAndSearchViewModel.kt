@@ -98,6 +98,10 @@ class TrendingAndSearchViewModel(
     }
 }
 
+/**
+ * Model used to transfer Gif data. This does not contain favourites in it since Paging Library doesn't
+ * allow Merging two different sources. Hence favourites list is passed separately.
+ */
 data class TrendingAndSearchModel(
     val id: String,
     val originalUrl: String,
