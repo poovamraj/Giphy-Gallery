@@ -2,7 +2,10 @@ package com.poovam.giphygallery
 
 import android.app.Application
 import com.poovam.giphygallery.webservice.giphyApiModule
-import com.poovam.giphygallery.common.retrofitModule
+import com.poovam.giphygallery.common.network.retrofitModule
+import com.poovam.giphygallery.trending.repository.gifDataSourceModule
+import com.poovam.giphygallery.trending.repository.trendingAndSearchRepositoryModule
+import com.poovam.giphygallery.trending.viewmodel.trendingAndSearchViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,7 +18,10 @@ class GiphyGalleryApplication : Application() {
             androidContext(this@GiphyGalleryApplication)
             modules(
                 retrofitModule,
-                giphyApiModule
+                giphyApiModule,
+                gifDataSourceModule,
+                trendingAndSearchViewModelModule,
+                trendingAndSearchRepositoryModule
             )
         }
     }
