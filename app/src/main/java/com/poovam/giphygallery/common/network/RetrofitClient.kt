@@ -1,4 +1,4 @@
-package com.poovam.giphygallery.common
+package com.poovam.giphygallery.common.network
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
