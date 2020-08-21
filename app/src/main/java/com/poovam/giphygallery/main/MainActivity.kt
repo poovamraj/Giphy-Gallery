@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.poovam.giphygallery.R
-import com.poovam.giphygallery.favourites.FavouritesFragment
-import com.poovam.giphygallery.trending.view.TrendingFragment
+import com.poovam.giphygallery.favourites.view.FavouritesFragment
+import com.poovam.giphygallery.trending.view.TrendingAndSearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     data class Page<T : Fragment>(val fragment: Class<T>, @StringRes val stringRes: Int)
 
     val pages = listOf(
-        Page(TrendingFragment::class.java, R.string.trending),
+        Page(TrendingAndSearchFragment::class.java, R.string.trending),
         Page(FavouritesFragment::class.java, R.string.favourites)
     )
 

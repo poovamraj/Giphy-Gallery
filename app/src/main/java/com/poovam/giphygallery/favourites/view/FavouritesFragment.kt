@@ -1,4 +1,4 @@
-package com.poovam.giphygallery.favourites
+package com.poovam.giphygallery.favourites.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.poovam.giphygallery.R
 
+//TODO Test rotation handled properly
 class FavouritesFragment : Fragment() {
 
     override fun onCreateView(
