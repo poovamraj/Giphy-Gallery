@@ -15,10 +15,11 @@ import com.poovam.giphygallery.common.network.Loading
 import com.poovam.giphygallery.common.view.GifViewModel
 import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
 import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchViewModel
+import kotlinx.android.synthetic.main.trending_fragment.*
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-//TODO implement refresh
+//TODO implement multi color for refresh spin
 class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val viewModel by viewModel<TrendingAndSearchViewModel>()
@@ -47,20 +48,19 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
             adapter.notifyDataSetChanged()
         }
 
+        view.swipeRefreshLayout.setOnRefreshListener { onRefreshed() }
+
         adapter.onFavouriteClicked = this::onFavouriteClicked
 
-            viewModel.networkState.observe(viewLifecycleOwner) {
-                it?.let {
-                    when (it) {
-                        Loading -> Toast.makeText(context, "Loading", Toast.LENGTH_SHORT)
-                            .show() //TODO Implement UI
-                        Loaded -> Toast.makeText(context, "Loaded", Toast.LENGTH_SHORT)
-                            .show() //TODO Implement UI
-                        is Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT)
-                            .show()
-                    }
+        viewModel.networkState.observe(viewLifecycleOwner) {
+            it?.let {
+                when (it) {
+                    Loading ->  { onDataLoading() }
+                    Loaded -> { onDataLoaded() }
+                    is Error -> { onErrorLoadingPage(it.errorMessage) }
                 }
             }
+        }
 
         view.searchView.setOnQueryTextListener(this)
     }
@@ -81,5 +81,24 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun onFavouriteClicked(gifData: TrendingAndSearchModel, setToFavourite: Boolean) {
         viewModel.onFavouriteClicked(gifData, setToFavourite)
+    }
+
+    private fun onRefreshed() {
+        viewModel.refresh()
+    }
+
+    //TODO Implement UI
+    private fun onDataLoading(){
+        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+    }
+
+    //TODO Implement UI
+    private fun onDataLoaded() {
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    //TODO Implement UI
+    private fun onErrorLoadingPage(errorMessage: String) {
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }

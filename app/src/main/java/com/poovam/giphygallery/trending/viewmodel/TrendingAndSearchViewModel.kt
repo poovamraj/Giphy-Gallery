@@ -57,6 +57,10 @@ class TrendingAndSearchViewModel(
         trendingAndSearchRepository.search(query)
     }
 
+    fun refresh() {
+        trendingAndSearchRepository.refresh()
+    }
+
     fun onFavouriteClicked(viewModel: TrendingAndSearchModel, setToFavourite: Boolean) {
         if (setToFavourite) {
             viewModelScope.launch {

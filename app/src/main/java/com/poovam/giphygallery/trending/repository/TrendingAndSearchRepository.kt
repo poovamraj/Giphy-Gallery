@@ -57,4 +57,8 @@ class TrendingAndSearchRepository<ToValue>(private val dataSourceFactory: GiphyD
     fun search(query: String?) {
         dataSourceFactory.searchQuery = query
     }
+
+    fun refresh() {
+        dataSourceFactory.refresh()
+    }
 }
