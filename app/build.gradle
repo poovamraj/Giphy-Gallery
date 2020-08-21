@@ -100,4 +100,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    /**
+     * Third party UI libraries
+     */
+    compile 'com.github.varunest:sparkbutton:1.0.6'
 }
