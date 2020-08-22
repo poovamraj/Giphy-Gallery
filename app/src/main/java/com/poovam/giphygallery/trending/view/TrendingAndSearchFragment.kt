@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.poovam.giphygallery.R
 import com.poovam.giphygallery.common.network.Error
 import com.poovam.giphygallery.common.network.Loaded
@@ -18,6 +20,7 @@ import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchViewModel
 import kotlinx.android.synthetic.main.trending_fragment.*
 import kotlinx.android.synthetic.main.trending_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 //TODO implement multi color for refresh spin
 class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -58,7 +61,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
             it?.let {
                 when (it) {
                     Loading -> {
-                        onDataLoading()
+                        onDataLoading(adapter.itemCount)
                     }
                     Loaded -> {
                         onDataLoaded()
@@ -85,6 +88,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun onSearched(query: String?) {
         viewModel.search(query)
+        onDataLoading(0)
     }
 
     private fun onFavouriteClicked(gifData: TrendingAndSearchModel, setToFavourite: Boolean) {
@@ -96,8 +100,10 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     //TODO Implement UI
-    private fun onDataLoading() {
-        Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+    private fun onDataLoading(dataSetSize: Int) {
+        if (dataSetSize == 0) {
+            swipeRefreshLayout.isRefreshing = true
+        }
     }
 
     //TODO Implement UI
@@ -107,6 +113,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     //TODO Implement UI
     private fun onErrorLoadingPage(errorMessage: String) {
+        swipeRefreshLayout.isRefreshing = false
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
     }
 

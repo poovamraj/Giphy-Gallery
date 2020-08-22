@@ -25,6 +25,7 @@ data class GifViewModel(
 //TODO on Tap we should implement a view to come like instagram with share option on and go to url
 //TODO Going to Giphy page should be done using chrome
 //TODO show favourite button after image is loaded?
+//TODO rename to GifItemView
 data class GifViewHolder(
     val view: View,
     val gifHolder: ImageView = view.gifHolder,
@@ -52,11 +53,16 @@ data class GifViewHolder(
 
         view.setOnClickListener { onGifClicked?.invoke(viewModel) }
 
+        val shimmerDrawable = ShimmerView(view.context).getRandomShimmerColor(
+            ShimmerView.ShimmerColor.values().random()
+        )
+
         ImageRenderer.render(
             view.context,
             null,
             viewModel.previewImageUrl,
-            gifHolder
+            gifHolder,
+            shimmerDrawable
         )
     }
 }

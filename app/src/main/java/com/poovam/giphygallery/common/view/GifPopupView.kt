@@ -52,12 +52,17 @@ class GifPopupView private constructor() : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val previewGifUrl = arguments?.getString(PREVIEW_GIF_URL)
         val originalUrl = arguments?.getString(HIGH_QUALITY_GIF_URL)
-        
+
+        val shimmerDrawable = ShimmerView(view.context).getRandomShimmerColor(
+            ShimmerView.ShimmerColor.values().random()
+        )
+
         ImageRenderer.render(
             view.context,
             previewGifUrl,
             originalUrl,
-            gifPopupView
+            gifPopupView,
+            shimmerDrawable
         )
     }
 }

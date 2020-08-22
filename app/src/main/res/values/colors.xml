@@ -3,4 +3,13 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorBackground">#FFFFFF</color>
+
+    <color name="colorPlaceholderYellow">#ffff00</color>
+    <color name="colorPlaceholderYellowShimmer">#ffff88</color>
+    <color name="colorPlaceholderGreen">#76ff03</color>
+    <color name="colorPlaceholderGreenShimmer">#99ff55</color>
+    <color name="colorPlaceholderBlue">#18ffff</color>
+    <color name="colorPlaceholderBlueShimmer">#6cffff</color>
+    <color name="colorPlaceholderRed">#ff5252</color>
+    <color name="colorPlaceholderRedShimmer">#ff6363</color>
 </resources>

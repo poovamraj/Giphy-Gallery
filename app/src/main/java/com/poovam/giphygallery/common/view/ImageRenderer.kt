@@ -18,7 +18,8 @@ class ImageRenderer {
             context: Context,
             previewUrl: String?,
             originalUrl: String?,
-            imageView: ImageView
+            imageView: ImageView,
+            placeholder: Drawable
         ) {
             val thumbnailRequest: RequestBuilder<Drawable> = Glide
                 .with(context)
@@ -27,6 +28,7 @@ class ImageRenderer {
             Glide.with(context)
                 .load(originalUrl)
                 .thumbnail(thumbnailRequest)
+                .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView)
         }

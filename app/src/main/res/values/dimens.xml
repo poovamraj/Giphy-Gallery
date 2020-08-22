@@ -3,4 +3,6 @@
     <dimen name="share_text_size">20sp</dimen>
     <dimen name="preview_image_size">200dp</dimen>
     <dimen name="favourite_button_size">40dp</dimen>
+    <dimen name="lottie_size">300dp</dimen>
+    <dimen name="gif_item_margin">2dp</dimen>
 </resources>

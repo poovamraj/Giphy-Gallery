@@ -106,6 +106,13 @@ dependencies {
      * Third party UI libraries
      */
     implementation 'com.github.varunest:sparkbutton:1.0.6'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    /**
+     * Lottie for animation
+     */
+    def lottie_version = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     /**
      * Debugging tools

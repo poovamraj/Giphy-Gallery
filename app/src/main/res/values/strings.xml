@@ -3,4 +3,5 @@
     <string name="trending">Trending</string>
     <string name="favourites">Favourites</string>
     <string name="share">Share</string>
+    <string name="empty_favourites">No GIFs marked as Favourite</string>
 </resources>
