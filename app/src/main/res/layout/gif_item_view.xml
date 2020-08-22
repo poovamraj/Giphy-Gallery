@@ -12,14 +12,12 @@
         android:scaleType="centerCrop"
         android:id="@+id/gifHolder"/>
 
-    <com.varunest.sparkbutton.SparkButton
+    <ImageView
         android:layout_width="@dimen/favourite_button_size"
         android:layout_height="@dimen/favourite_button_size"
         android:layout_margin="5dp"
         android:id="@+id/favourite"
-        app:sparkbutton_iconSize="@dimen/favourite_button_size"
-        app:sparkbutton_activeImage="@drawable/ic_heart_on"
-        app:sparkbutton_inActiveImage="@drawable/ic_heart_off"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@id/gifHolder"
         app:layout_constraintRight_toRightOf="@id/gifHolder"/>
 

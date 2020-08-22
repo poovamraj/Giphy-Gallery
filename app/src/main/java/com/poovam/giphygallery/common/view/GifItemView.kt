@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.poovam.giphygallery.R
-import com.varunest.sparkbutton.SparkButton
 import kotlinx.android.synthetic.main.gif_item_view.view.*
 
 
@@ -24,7 +23,7 @@ data class GifViewModel(
 data class GifViewHolder(
     val view: View,
     val gifHolder: ImageView = view.gifHolder,
-    val favourite: SparkButton = view.favourite
+    val favourite: ImageView = view.favourite
 ) : RecyclerView.ViewHolder(view) {
 
     companion object {
@@ -39,11 +38,14 @@ data class GifViewHolder(
     var onGifClicked: ((GifViewModel) -> Unit)? = null
 
     fun bindView(viewModel: GifViewModel) {
-        favourite.isChecked = viewModel.isFavourite
+        if(viewModel.isFavourite){
+            favourite.setImageResource(R.drawable.ic_heart_on)
+        } else {
+            favourite.setImageResource(R.drawable.ic_heart_off)
+        }
 
         favourite.setOnClickListener {
             onFavouriteClicked?.invoke(viewModel, !viewModel.isFavourite)
-            favourite.playAnimation()
         }
 
         view.setOnClickListener { onGifClicked?.invoke(viewModel) }
