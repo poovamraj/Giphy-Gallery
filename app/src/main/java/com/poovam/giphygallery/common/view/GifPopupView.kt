@@ -1,17 +1,12 @@
 package com.poovam.giphygallery.common.view
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.poovam.giphygallery.R
 import kotlinx.android.synthetic.main.gif_popup_view.*
-import kotlinx.android.synthetic.main.gif_popup_view.view.*
 
 
 /**
@@ -19,7 +14,8 @@ import kotlinx.android.synthetic.main.gif_popup_view.view.*
  * This should be created only through
  * Initially shows a preview but then loads full quality
  */
-class GifPopupView private constructor() : DialogFragment() {
+//TODO popup view share options not seen in landscape
+class GifPopupView : DialogFragment() {
 
     companion object {
         private const val PREVIEW_GIF_URL = "PREVIEW_GIF_URL"
