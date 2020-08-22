@@ -2,12 +2,11 @@ package com.poovam.giphygallery.favourites.view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.poovam.giphygallery.common.view.GifViewHolder
-import com.poovam.giphygallery.common.view.GifViewModel
+import com.poovam.giphygallery.common.view.GifItemViewHolder
+import com.poovam.giphygallery.common.view.GifItemViewModel
 import com.poovam.giphygallery.favourites.model.db.Favourite
-import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
 
-class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifViewHolder>() {
+class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifItemViewHolder>() {
 
     var dataSet: List<Favourite> = ArrayList()
 
@@ -15,17 +14,17 @@ class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifViewHolder>() {
 
     var onGifClicked: ((Favourite) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
-        return GifViewHolder.createViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifItemViewHolder {
+        return GifItemViewHolder.createViewHolder(parent)
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
 
-    override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GifItemViewHolder, position: Int) {
         val data = dataSet[position]
-        holder.bindView(GifViewModel(data.id, data.originalGifUrl, data.previewGifUrl, true))
+        holder.bindView(GifItemViewModel(data.id, data.originalGifUrl, data.previewGifUrl, true))
         holder.onFavouriteClicked =
             { gifViewModel, _ -> onFavouriteClicked?.invoke(gifViewModel.id) }
         holder.onGifClicked =

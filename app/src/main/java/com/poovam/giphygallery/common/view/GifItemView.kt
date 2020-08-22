@@ -9,7 +9,7 @@ import com.poovam.giphygallery.R
 import kotlinx.android.synthetic.main.gif_item_view.view.*
 
 
-data class GifViewModel(
+data class GifItemViewModel(
     val id: String,
     val originalUrl: String,
     val previewImageUrl: String,
@@ -19,26 +19,26 @@ data class GifViewModel(
 //TODO on Tap we should implement a view to come like instagram with share option on and go to url
 //TODO Going to Giphy page should be done using chrome
 //TODO show favourite button after image is loaded?
-//TODO rename to GifItemView
-data class GifViewHolder(
+data class GifItemViewHolder(
     val view: View,
     val gifHolder: ImageView = view.gifHolder,
     val favourite: ImageView = view.favourite
 ) : RecyclerView.ViewHolder(view) {
 
     companion object {
-        fun createViewHolder(parent: ViewGroup): GifViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.gif_item_view, parent, false)
-            return GifViewHolder(view)
+        fun createViewHolder(parent: ViewGroup): GifItemViewHolder {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.gif_item_view, parent, false)
+            return GifItemViewHolder(view)
         }
     }
 
-    var onFavouriteClicked: ((GifViewModel, setToFavourite: Boolean) -> Unit)? = null
+    var onFavouriteClicked: ((GifItemViewModel, setToFavourite: Boolean) -> Unit)? = null
 
-    var onGifClicked: ((GifViewModel) -> Unit)? = null
+    var onGifClicked: ((GifItemViewModel) -> Unit)? = null
 
-    fun bindView(viewModel: GifViewModel) {
-        if(viewModel.isFavourite){
+    fun bindView(viewModel: GifItemViewModel) {
+        if (viewModel.isFavourite) {
             favourite.setImageResource(R.drawable.ic_heart_on)
         } else {
             favourite.setImageResource(R.drawable.ic_heart_off)

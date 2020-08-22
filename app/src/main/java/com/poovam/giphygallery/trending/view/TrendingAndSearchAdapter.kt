@@ -1,19 +1,12 @@
 package com.poovam.giphygallery.trending.view
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.MediatorLiveData
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.poovam.giphygallery.R
-import com.poovam.giphygallery.common.view.GifViewHolder
-import com.poovam.giphygallery.common.view.GifViewModel
+import com.poovam.giphygallery.common.view.GifItemViewHolder
+import com.poovam.giphygallery.common.view.GifItemViewModel
 import com.poovam.giphygallery.favourites.model.db.Favourite
 import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
-import com.poovam.giphygallery.webservice.model.GifData
 
 
 private val DIFF_CALLBACK: DiffUtil.ItemCallback<TrendingAndSearchModel> =
@@ -30,7 +23,7 @@ private val DIFF_CALLBACK: DiffUtil.ItemCallback<TrendingAndSearchModel> =
         ): Boolean = oldItem == newItem
     }
 
-class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifViewHolder>(
+class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifItemViewHolder>(
     DIFF_CALLBACK
 ) {
 
@@ -44,16 +37,16 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifViewHolde
 
     var onGifClicked: ((TrendingAndSearchModel) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
-        return GifViewHolder.createViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifItemViewHolder {
+        return GifItemViewHolder.createViewHolder(parent)
     }
 
 
-    override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GifItemViewHolder, position: Int) {
         val data = getItem(position)
         if (data != null) {
             holder.bindView(
-                GifViewModel(
+                GifItemViewModel(
                     data.id,
                     data.originalUrl,
                     data.previewImageUrl,
