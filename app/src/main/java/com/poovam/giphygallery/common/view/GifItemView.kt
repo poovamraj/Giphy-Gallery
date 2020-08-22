@@ -1,18 +1,13 @@
 package com.poovam.giphygallery.common.view
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.poovam.giphygallery.R
 import com.varunest.sparkbutton.SparkButton
-import kotlinx.android.synthetic.main.gif_view.view.*
+import kotlinx.android.synthetic.main.gif_item_view.view.*
 
 
 data class GifViewModel(
@@ -34,7 +29,7 @@ data class GifViewHolder(
 
     companion object {
         fun createViewHolder(parent: ViewGroup): GifViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.gif_view, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.gif_item_view, parent, false)
             return GifViewHolder(view)
         }
     }
