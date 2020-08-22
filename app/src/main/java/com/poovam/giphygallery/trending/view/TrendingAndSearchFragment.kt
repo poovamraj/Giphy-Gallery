@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.poovam.giphygallery.R
 import com.poovam.giphygallery.common.network.Error
 import com.poovam.giphygallery.common.network.Loaded
@@ -22,10 +20,11 @@ import kotlinx.android.synthetic.main.trending_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-//TODO implement multi color for refresh spin
 class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val viewModel by viewModel<TrendingAndSearchViewModel>()
+
+    private val adapter = GifRecyclerAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +35,6 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = GifRecyclerAdapter()
         val layoutManager = GridLayoutManager(activity, 2)
         view.recyclerView.layoutManager = layoutManager
         view.recyclerView.adapter = adapter

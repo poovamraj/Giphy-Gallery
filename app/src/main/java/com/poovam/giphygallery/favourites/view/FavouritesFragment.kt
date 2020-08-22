@@ -12,9 +12,7 @@ import com.poovam.giphygallery.common.view.GifPopupView
 import com.poovam.giphygallery.favourites.model.db.Favourite
 import com.poovam.giphygallery.favourites.viewmodel.FavouritesViewModel
 import kotlinx.android.synthetic.main.favourites_fragment.*
-import kotlinx.android.synthetic.main.trending_fragment.*
-import kotlinx.android.synthetic.main.trending_fragment.recyclerView
-import kotlinx.android.synthetic.main.trending_fragment.view.*
+import kotlinx.android.synthetic.main.favourites_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 //TODO Test rotation handled properly

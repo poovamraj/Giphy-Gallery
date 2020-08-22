@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.poovam.giphygallery.R
 import kotlinx.android.synthetic.main.gif_popup_view.*
 import kotlinx.android.synthetic.main.gif_popup_view.view.*
-import kotlinx.android.synthetic.main.gif_view.*
 
 
 /**
