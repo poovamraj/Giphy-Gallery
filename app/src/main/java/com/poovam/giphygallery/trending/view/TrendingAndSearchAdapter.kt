@@ -42,6 +42,8 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifViewHolde
 
     var onFavouriteClicked: ((TrendingAndSearchModel, setToFavourite: Boolean) -> Unit)? = null
 
+    var onGifClicked: ((TrendingAndSearchModel) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
         return GifViewHolder.createViewHolder(parent)
     }
@@ -59,12 +61,12 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifViewHolde
             )
             holder.onFavouriteClicked = { vm, setToFavourite ->
                 onFavouriteClicked?.invoke(
-                    TrendingAndSearchModel(
-                        vm.id,
-                        vm.originalUrl,
-                        vm.previewImageUrl
-                    ), setToFavourite
+                    TrendingAndSearchModel(vm.id, vm.originalUrl, vm.previewImageUrl),
+                    setToFavourite
                 )
+            }
+            holder.onGifClicked = {
+                onGifClicked?.invoke(TrendingAndSearchModel(it.id, it.originalUrl, it.previewImageUrl))
             }
         } else {
             //TODO handle loading UI

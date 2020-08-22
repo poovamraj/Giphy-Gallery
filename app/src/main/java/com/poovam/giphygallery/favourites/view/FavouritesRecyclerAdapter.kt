@@ -5,12 +5,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.poovam.giphygallery.common.view.GifViewHolder
 import com.poovam.giphygallery.common.view.GifViewModel
 import com.poovam.giphygallery.favourites.model.db.Favourite
+import com.poovam.giphygallery.trending.viewmodel.TrendingAndSearchModel
 
 class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifViewHolder>() {
 
     var dataSet: List<Favourite> = ArrayList()
 
     var onFavouriteClicked: ((gifId: String) -> Unit)? = null
+
+    var onGifClicked: ((Favourite) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
         return GifViewHolder.createViewHolder(parent)
@@ -25,6 +28,8 @@ class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifViewHolder>() {
         holder.bindView(GifViewModel(data.id, data.originalGifUrl, data.previewGifUrl, true))
         holder.onFavouriteClicked =
             { gifViewModel, _ -> onFavouriteClicked?.invoke(gifViewModel.id) }
+        holder.onGifClicked =
+            { it -> onGifClicked?.invoke(Favourite(it.id, it.originalUrl, it.previewImageUrl)) }
     }
 
 }

@@ -1,11 +1,14 @@
 package com.poovam.giphygallery.common.view
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.poovam.giphygallery.R
 import com.varunest.sparkbutton.SparkButton
@@ -19,7 +22,9 @@ data class GifViewModel(
     val isFavourite: Boolean
 )
 
-
+//TODO on Tap we should implement a view to come like instagram with share option on and go to url
+//TODO Going to Giphy page should be done using chrome
+//TODO show favourite button after image is loaded?
 data class GifViewHolder(
     val view: View,
     val gifHolder: ImageView = view.gifHolder,
@@ -35,6 +40,8 @@ data class GifViewHolder(
 
     var onFavouriteClicked: ((GifViewModel, setToFavourite: Boolean) -> Unit)? = null
 
+    var onGifClicked: ((GifViewModel) -> Unit)? = null
+
     fun bindView(viewModel: GifViewModel) {
         favourite.isChecked = viewModel.isFavourite
 
@@ -43,9 +50,13 @@ data class GifViewHolder(
             favourite.playAnimation()
         }
 
-        Glide.with(view.context)
-            .load(viewModel.previewImageUrl)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)//TODO move this config away from view
-            .into(gifHolder)
+        view.setOnClickListener { onGifClicked?.invoke(viewModel) }
+
+        ImageRenderer.render(
+            view.context,
+            null,
+            viewModel.previewImageUrl,
+            gifHolder
+        )
     }
 }

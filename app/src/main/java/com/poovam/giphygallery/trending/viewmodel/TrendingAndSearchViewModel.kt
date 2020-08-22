@@ -44,7 +44,8 @@ class TrendingAndSearchViewModel(
         return@map if (it is Error) {
             Log.e(
                 TrendingAndSearchViewModel::class.simpleName,
-                it.errorMessage + ":" + it.exception.stackTrace
+                it.errorMessage,
+                it.exception
             )
             Error(it.exception, ErrorHandler.handleException(it.exception))
         } else {
@@ -89,13 +90,14 @@ class TrendingAndSearchViewModel(
         return try {
             TrendingAndSearchModel(
                 gifData.id,
-                gifData.url,
+                gifData.images.fixedHeight.url,
                 gifData.images.fixedWidthDownsampled.url,
             )
         } catch (e: Exception) {
             Log.e(
                 TrendingAndSearchViewModel::class.simpleName,
-                "Webservice has provided data as null" + ":" + e.stackTrace
+                "Webservice has provided data as null",
+                e
             )
             null
         }
