@@ -8,6 +8,7 @@ import com.poovam.giphygallery.favourites.model.FavouriteRepository
 import com.poovam.giphygallery.favourites.model.db.Favourite
 import com.poovam.giphygallery.trending.repository.TrendingAndSearchRepository
 import com.poovam.giphygallery.webservice.model.GifData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -18,12 +19,12 @@ val trendingAndSearchViewModelModule = module {
     viewModel { TrendingAndSearchViewModel(get(), get()) }
 }
 
-//TODO rotation not handled properly
-//TODO clean how this class looks
 class TrendingAndSearchViewModel(
     private val trendingAndSearchRepository: TrendingAndSearchRepository<TrendingAndSearchModel>,
     private val favouriteRepository: FavouriteRepository
 ) : ViewModel() {
+
+    private val tag = TrendingAndSearchViewModel::class.simpleName
 
     init {
         trendingAndSearchRepository.loadDataSourceAs { buildTrendingAndSearchModel(it) }
@@ -34,35 +35,31 @@ class TrendingAndSearchViewModel(
      * does not support this.
      *
      * Merging from 2 different data source is currently not supported in Android Paging Library
-     *
      */
     val gifs = trendingAndSearchRepository.getGifSource()
 
     val favourites = favouriteRepository.getFavourites().asLiveData()
 
     /**
-     * Search query value is maintained in ViewModel since [onQueryTextChange] will be called on
-     * rotation which causes the data source to be invalidated. Hence we are invalidating only if
-     * search query is different than before
+     * Search query value is maintained in ViewModel since [androidx.appcompat.widget.SearchView.OnQueryTextListener.onQueryTextChange]
+     * will be called on rotation which causes the data source to be invalidated. Hence we are
+     * invalidating only if search query is different than before
      *
-     * Initial value set to "" since [onQueryTextChange] sends this on rotation and if initial value
-     * is null it will cause rotation at first rotation alone. Hence setting to ""
+     * Initial value set to "" since [androidx.appcompat.widget.SearchView.OnQueryTextListener.onQueryTextChange]
+     * sends this on rotation and if initial value is null it will cause rotation at first rotation alone.
+     * Hence setting to ""
      */
     var searchQuery: String? = ""
-    set(value) {
-        if(field != value){
-            field = value
-            search(value)
+        set(value) {
+            if (field != value) {
+                field = value
+                search(value)
+            }
         }
-    }
 
     val networkState = Transformations.map(trendingAndSearchRepository.getNetworkState()) {
         return@map if (it is Error) {
-            Log.e(
-                TrendingAndSearchViewModel::class.simpleName,
-                it.errorMessage,
-                it.exception
-            )
+            Log.e(tag, it.errorMessage, it.exception)
             Error(it.exception, ErrorHandler.handleException(it.exception))
         } else {
             it
@@ -78,15 +75,15 @@ class TrendingAndSearchViewModel(
         trendingAndSearchRepository.refresh()
     }
 
+    /**
+     * Marks a Gif as Favourite or Removes it
+     * not operating on [Dispatchers.IO] since Room automatically handles this
+     */
     fun onFavouriteClicked(viewModel: TrendingAndSearchModel, setToFavourite: Boolean) {
         if (setToFavourite) {
             viewModelScope.launch {
                 favouriteRepository.setFavourite(
-                    Favourite(
-                        viewModel.id,
-                        viewModel.originalUrl,
-                        viewModel.previewImageUrl
-                    )
+                    Favourite(viewModel.id, viewModel.originalUrl, viewModel.previewImageUrl)
                 )
             }
         } else {
@@ -110,11 +107,7 @@ class TrendingAndSearchViewModel(
                 gifData.images.fixedWidthDownsampled.url,
             )
         } catch (e: Exception) {
-            Log.e(
-                TrendingAndSearchViewModel::class.simpleName,
-                "Webservice has provided data as null",
-                e
-            )
+            Log.e(tag, "Webservice has provided data as null", e)
             null
         }
     }
