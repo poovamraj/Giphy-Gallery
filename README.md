@@ -28,3 +28,10 @@ UI/UX
 - Reactive Search
 - App based on Dark Theme
 - Infinite Scroll
+
+--------
+**Screenshots**
+
+<img src="screenshots/trending-screen-shot.jpg" width="350" />
+
+<img src="screenshots/popup-view.jpg" width="350" />
