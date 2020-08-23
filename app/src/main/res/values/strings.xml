@@ -4,4 +4,5 @@
     <string name="favourites">Favourites</string>
     <string name="share">Share</string>
     <string name="empty_favourites">No GIFs marked as Favourite</string>
+    <string name="search_hint">Search for GIFs</string>
 </resources>
