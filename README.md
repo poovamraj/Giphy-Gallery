@@ -1,8 +1,7 @@
 # Giphy-Gallery
 A browser for GIFs from Giphy using MVVM, Android Paging Library, Room, Koin, Lottie
 
-100% Kotlin
-
+- 100% Kotlin
 - Written following MVVM Architecture
 - Used Coroutines, Livedata and Flow instead of RxJava
 - Infinite scroll is implemented using Android Paging Library
