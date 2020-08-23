@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.favourites_fragment.*
 import kotlinx.android.synthetic.main.favourites_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-//TODO Test rotation handled properly
-//TODO show empty view using lottie
 class FavouritesFragment : Fragment() {
 
     private val viewModel by viewModel<FavouritesViewModel>()

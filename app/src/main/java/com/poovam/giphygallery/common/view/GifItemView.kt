@@ -16,9 +16,6 @@ data class GifItemViewModel(
     val isFavourite: Boolean
 )
 
-//TODO on Tap we should implement a view to come like instagram with share option on and go to url
-//TODO Going to Giphy page should be done using chrome
-//TODO show favourite button after image is loaded?
 data class GifItemViewHolder(
     val view: View,
     val gifHolder: ImageView = view.gifHolder,

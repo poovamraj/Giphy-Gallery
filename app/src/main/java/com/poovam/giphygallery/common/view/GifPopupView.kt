@@ -1,12 +1,16 @@
 package com.poovam.giphygallery.common.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.DialogFragment
 import com.poovam.giphygallery.R
 import kotlinx.android.synthetic.main.gif_popup_view.*
+import kotlinx.android.synthetic.main.gif_popup_view.view.*
 
 
 /**
@@ -14,7 +18,6 @@ import kotlinx.android.synthetic.main.gif_popup_view.*
  * This should be created only through
  * Initially shows a preview but then loads full quality
  */
-//TODO popup view share options not seen in landscape
 class GifPopupView : DialogFragment() {
 
     companion object {
@@ -41,12 +44,17 @@ class GifPopupView : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.gif_popup_view, container, false)
+        val view = inflater.inflate(R.layout.gif_popup_view, container, false)
+        handleOrientation(view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val previewGifUrl = arguments?.getString(PREVIEW_GIF_URL)
         val originalUrl = arguments?.getString(HIGH_QUALITY_GIF_URL)
+
+        share.setOnClickListener { shareGifUrl(originalUrl) }
 
         val shimmerDrawable = ShimmerView(view.context).getRandomShimmerColor(
             ShimmerView.ShimmerColor.values().random()
@@ -59,5 +67,24 @@ class GifPopupView : DialogFragment() {
             gifPopupView,
             shimmerDrawable
         )
+    }
+
+    private fun shareGifUrl(url: String?){
+        activity?.let {
+            ShareCompat.IntentBuilder.from(it)
+                .setType("text/plain")
+                .setChooserTitle("Share Gif")
+                .setText(url)
+                .startChooser()
+        }
+    }
+
+    private fun handleOrientation(view: View){
+        val currentOrientation = resources.configuration.orientation
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            (view.gifPopupView.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "2:1"
+        } else {
+            (view.gifPopupView.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "1:1"
+        }
     }
 }
