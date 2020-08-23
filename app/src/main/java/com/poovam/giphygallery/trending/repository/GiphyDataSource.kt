@@ -17,7 +17,7 @@ import java.lang.Exception
 
 val gifDataSourceModule = module {
     fun provideDataSourceFactory(giphyApi: GiphyApi): GiphyDataSourceFactory {
-        return GiphyDataSourceFactory(giphyApi, CoroutineScope(Dispatchers.IO))
+        return GiphyDataSourceFactory(giphyApi, Dispatchers.IO)
     }
 
     factory { provideDataSourceFactory(get()) }
@@ -25,7 +25,7 @@ val gifDataSourceModule = module {
 
 class GiphyDataSourceFactory(
     private val giphyApi: GiphyApi,
-    private val coroutineScope: CoroutineScope
+    private val dispatcher: CoroutineDispatcher
 ) : DataSource.Factory<Long, GifData>() {
 
     /**
@@ -58,7 +58,7 @@ class GiphyDataSourceFactory(
     }
 
     override fun create(): DataSource<Long, GifData> {
-        val newDataSource = GiphyDataSource(giphyApi, searchQuery, networkState, coroutineScope)
+        val newDataSource = GiphyDataSource(giphyApi, searchQuery, networkState, dispatcher)
         dataSource = newDataSource
         return newDataSource
     }
@@ -68,13 +68,15 @@ class GiphyDataSource(
     private val giphyApi: GiphyApi,
     private val search: String?,
     private val networkState: MutableLiveData<NetworkState>,
-    private val coroutineScope: CoroutineScope
+    dispatcher: CoroutineDispatcher
 ) : PageKeyedDataSource<Long, GifData>() {
 
     companion object {
         const val PAGE_SIZE = 50
         private const val FIRST_PAGE = 0L
     }
+
+    private val coroutineScope = CoroutineScope(dispatcher)
 
     override fun loadInitial(
         params: LoadInitialParams<Long>,

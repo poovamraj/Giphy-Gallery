@@ -76,17 +76,14 @@ class GiphyDataSourceUnitTest {
     @ExperimentalCoroutinesApi
     @Before
     fun before() {
-        val dispatcher = TestCoroutineDispatcher()
-        val testCoroutineScope = TestCoroutineScope(dispatcher)
-
-        Dispatchers.setMain(dispatcher)
+        Dispatchers.setMain(Dispatchers.Unconfined)
         trendingDataSource =
-            GiphyDataSource(mockGiphyApi, "", networkState, testCoroutineScope)
+            GiphyDataSource(mockGiphyApi, "", networkState, Dispatchers.Unconfined)
         searchingDataSource = GiphyDataSource(
             mockGiphyApi,
             "Searching",
             networkState,
-            testCoroutineScope
+            Dispatchers.Unconfined
         )
     }
 
@@ -121,7 +118,7 @@ class GiphyDataSourceUnitTest {
     @Test
     fun testNetworkStateProvidesLoadingAndLoaded() {
         val initialParams = PageKeyedDataSource.LoadInitialParams<Long>(50, false)
-        coEvery { mockGiphyApi.searchGifs(any(), any()) } returns GiphyResponse(
+        coEvery { mockGiphyApi.getTrendingGifs(any()) } returns GiphyResponse(
             result,
             Pagination(100, 50, 0)
         )
@@ -138,7 +135,7 @@ class GiphyDataSourceUnitTest {
     fun testErrorIsThrownInNetworkState() {
         val exception = IllegalStateException()
         val initialParams = PageKeyedDataSource.LoadInitialParams<Long>(50, false)
-        coEvery { mockGiphyApi.searchGifs(any(), any()) } throws exception
+        coEvery { mockGiphyApi.getTrendingGifs(any()) } throws exception
         val states = arrayOf(Loading, Error(exception, "Error at loadInitial"))
         var counter = 0
         networkState.observeForever {
