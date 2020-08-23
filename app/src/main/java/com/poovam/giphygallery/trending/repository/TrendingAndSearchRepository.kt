@@ -19,7 +19,9 @@ val trendingAndSearchRepositoryModule = module {
  * since in future there might raise a requirement to store value in DB/Locally during when this
  * abstraction would be useful
  *
- *  //TODO explain why generics is used
+ *  This repository can be used by any ViewModel in future to get the data.
+ *  Since Android Paging library supports data conversion only at factory level generics is used to
+ *  define what kind of result will be expected from this repository.
  */
 class TrendingAndSearchRepository<ToValue>(private val dataSourceFactory: GiphyDataSourceFactory) {
 
