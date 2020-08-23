@@ -85,7 +85,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun onSearched(query: String?) {
-        viewModel.search(query)
+        viewModel.searchQuery = query
         onDataLoading(0)
     }
 
@@ -97,19 +97,16 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
         viewModel.refresh()
     }
 
-    //TODO Implement UI
     private fun onDataLoading(dataSetSize: Int) {
         if (dataSetSize == 0) {
             swipeRefreshLayout.isRefreshing = true
         }
     }
 
-    //TODO Implement UI
     private fun onDataLoaded() {
         swipeRefreshLayout.isRefreshing = false
     }
 
-    //TODO Implement UI
     private fun onErrorLoadingPage(errorMessage: String) {
         swipeRefreshLayout.isRefreshing = false
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()

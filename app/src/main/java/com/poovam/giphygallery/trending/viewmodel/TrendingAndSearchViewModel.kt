@@ -40,6 +40,22 @@ class TrendingAndSearchViewModel(
 
     val favourites = favouriteRepository.getFavourites().asLiveData()
 
+    /**
+     * Search query value is maintained in ViewModel since [onQueryTextChange] will be called on
+     * rotation which causes the data source to be invalidated. Hence we are invalidating only if
+     * search query is different than before
+     *
+     * Initial value set to "" since [onQueryTextChange] sends this on rotation and if initial value
+     * is null it will cause rotation at first rotation alone. Hence setting to ""
+     */
+    var searchQuery: String? = ""
+    set(value) {
+        if(field != value){
+            field = value
+            search(value)
+        }
+    }
+
     val networkState = Transformations.map(trendingAndSearchRepository.getNetworkState()) {
         return@map if (it is Error) {
             Log.e(
@@ -54,7 +70,7 @@ class TrendingAndSearchViewModel(
     }
 
     //TODO Debounce here
-    fun search(query: String?) {
+    private fun search(query: String?) {
         trendingAndSearchRepository.search(query)
     }
 
