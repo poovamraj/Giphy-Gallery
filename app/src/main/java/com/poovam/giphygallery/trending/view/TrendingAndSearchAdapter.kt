@@ -61,8 +61,6 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifItemViewH
             holder.onGifClicked = {
                 onGifClicked?.invoke(TrendingAndSearchModel(it.id, it.originalUrl, it.previewImageUrl))
             }
-        } else {
-            //TODO handle loading UI
         }
     }
 

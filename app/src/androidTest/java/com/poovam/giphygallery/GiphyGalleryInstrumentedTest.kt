@@ -22,3 +22,14 @@ class ExampleInstrumentedTest {
         assertEquals("com.poovam.giphygallery", appContext.packageName)
     }
 }
+
+//TODO clicking Favourite in trending should show up in fragments
+//Clicking unfavourite in favourite should reduce count
+//clicking unfavourite in trending should reduce count
+//clicking unfavourite in favourites should change state in trending
+//test empty view
+
+//clicking favourite in trending should change button state
+//searching should make swiperefreshing true
+//refreshing should make swiperefresh true
+//test pagination?
