@@ -24,11 +24,28 @@ class FavouritesRecyclerAdapter : RecyclerView.Adapter<GifItemViewHolder>() {
 
     override fun onBindViewHolder(holder: GifItemViewHolder, position: Int) {
         val data = dataSet[position]
-        holder.bindView(GifItemViewModel(data.id, data.originalGifUrl, data.previewGifUrl, true))
+        holder.bindView(
+            GifItemViewModel(
+                data.id,
+                data.originalGifUrl,
+                data.previewGifUrl,
+                data.localPath,
+                true
+            )
+        )
         holder.onFavouriteClicked =
             { gifViewModel, _ -> onFavouriteClicked?.invoke(gifViewModel.id) }
         holder.onGifClicked =
-            { it -> onGifClicked?.invoke(Favourite(it.id, it.originalUrl, it.previewImageUrl)) }
+            { it ->
+                onGifClicked?.invoke(
+                    Favourite(
+                        it.id,
+                        it.originalUrl,
+                        it.previewImageUrl,
+                        it.localPath
+                    )
+                )
+            }
     }
 
 }

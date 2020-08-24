@@ -1,9 +1,6 @@
 package com.poovam.giphygallery.favourites.model.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,4 +13,7 @@ interface FavouriteDao {
 
     @Query("SELECT * FROM FAVOURITE")
     fun getAllFavourites(): Flow<List<Favourite>>
+
+    @Query("UPDATE FAVOURITE SET localPath = :localPath  WHERE id = :id ")
+    suspend fun updateLocalPath(id: String, localPath: String)
 }

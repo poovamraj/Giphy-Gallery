@@ -1,5 +1,6 @@
 package com.poovam.giphygallery.favourites.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,7 @@ class FavouritesViewModel(private val favouritesRepository: FavouriteRepository)
 
     val favourites = favouritesRepository.getFavourites().asLiveData()
 
-    fun removeFavouriteById(gifId: String){
-        viewModelScope.launch { favouritesRepository.removeFavouriteById(gifId) }
+    fun removeFavouriteById(context: Context, gifId: String){
+        viewModelScope.launch { favouritesRepository.removeFavouriteById(context, gifId) }
     }
 }

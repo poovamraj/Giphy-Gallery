@@ -13,6 +13,7 @@ data class GifItemViewModel(
     val id: String,
     val originalUrl: String,
     val previewImageUrl: String,
+    val localPath: String?,
     val isFavourite: Boolean
 )
 
@@ -55,6 +56,7 @@ data class GifItemViewHolder(
             view.context,
             null,
             viewModel.previewImageUrl,
+            viewModel.localPath,
             gifHolder,
             shimmerDrawable
         )

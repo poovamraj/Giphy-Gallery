@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import java.io.File
 
 /**
  * Abstraction from Glide library. If in future we plan to move away from Glide. Just changing
@@ -18,17 +19,24 @@ class ImageRenderer {
             context: Context,
             previewUrl: String?,
             originalUrl: String?,
+            localPath: String?,
             imageView: ImageView,
             placeholder: Drawable
         ) {
+            var glide = Glide.with(context)
+                .load(originalUrl)
             val thumbnailRequest: RequestBuilder<Drawable> = Glide
                 .with(context)
                 .load(previewUrl)
 
-            Glide.with(context)
-                .load(originalUrl)
-                .thumbnail(thumbnailRequest)
-                .placeholder(placeholder)
+            glide = glide.thumbnail(thumbnailRequest)
+
+            val localRequest: RequestBuilder<Drawable> = Glide
+                .with(context)
+                .load(localPath)
+            glide = glide.thumbnail(localRequest)
+
+            glide.placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView)
         }

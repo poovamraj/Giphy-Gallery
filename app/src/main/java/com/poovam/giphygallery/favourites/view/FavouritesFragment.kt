@@ -33,7 +33,7 @@ class FavouritesFragment : Fragment() {
         view.recyclerView.layoutManager = GridLayoutManager(activity, 2)
         view.recyclerView.adapter = adapter
         adapter.onFavouriteClicked = this::onFavouriteClicked
-        adapter.onGifClicked = { onGifClicked(it.previewGifUrl, it.originalGifUrl) }
+        adapter.onGifClicked = { onGifClicked(it.previewGifUrl, it.originalGifUrl, it.localPath) }
 
         viewModel.favourites.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
@@ -61,10 +61,10 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun onFavouriteClicked(gifId: String) {
-        viewModel.removeFavouriteById(gifId)
+        context?.let { viewModel.removeFavouriteById(it, gifId) }
     }
 
-    private fun onGifClicked(previewGifUrl: String, originalGifUrl: String) {
-        GifPopupView.newInstance(previewGifUrl, originalGifUrl).show(childFragmentManager, null)
+    private fun onGifClicked(previewGifUrl: String, originalGifUrl: String, localPath: String?) {
+        GifPopupView.newInstance(previewGifUrl, originalGifUrl, localPath).show(childFragmentManager, null)
     }
 }

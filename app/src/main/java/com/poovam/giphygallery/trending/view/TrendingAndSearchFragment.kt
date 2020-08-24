@@ -90,7 +90,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun onFavouriteClicked(gifData: TrendingAndSearchModel, setToFavourite: Boolean) {
-        viewModel.onFavouriteClicked(gifData, setToFavourite)
+        context?.let { viewModel.onFavouriteClicked(it, gifData, setToFavourite) }
     }
 
     private fun onRefreshed() {
@@ -114,7 +114,7 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun onGifClicked(viewModel: TrendingAndSearchModel) {
         GifPopupView
-            .newInstance(viewModel.previewImageUrl, viewModel.originalUrl)
+            .newInstance(viewModel.previewImageUrl, viewModel.originalUrl, null)
             .show(childFragmentManager, null)
     }
 }

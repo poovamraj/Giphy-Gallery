@@ -50,6 +50,7 @@ class GifRecyclerAdapter : PagedListAdapter<TrendingAndSearchModel, GifItemViewH
                     data.id,
                     data.originalUrl,
                     data.previewImageUrl,
+                    null,
                     favourites.find { it.id == data.id } != null)
             )
             holder.onFavouriteClicked = { vm, setToFavourite ->

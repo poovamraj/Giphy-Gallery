@@ -1,5 +1,6 @@
 package com.poovam.giphygallery.trending.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import com.poovam.giphygallery.common.network.Error
@@ -10,6 +11,7 @@ import com.poovam.giphygallery.trending.repository.TrendingAndSearchRepository
 import com.poovam.giphygallery.webservice.model.GifData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.lang.Exception
@@ -80,16 +82,21 @@ class TrendingAndSearchViewModel(
      * Marks a Gif as Favourite or Removes it
      * not operating on [Dispatchers.IO] since Room automatically handles this
      */
-    fun onFavouriteClicked(viewModel: TrendingAndSearchModel, setToFavourite: Boolean) {
+    fun onFavouriteClicked(
+        context: Context,
+        viewModel: TrendingAndSearchModel,
+        setToFavourite: Boolean
+    ) {
         if (setToFavourite) {
             viewModelScope.launch {
                 favouriteRepository.setFavourite(
-                    Favourite(viewModel.id, viewModel.originalUrl, viewModel.previewImageUrl)
+                    context,
+                    Favourite(viewModel.id, viewModel.originalUrl, viewModel.previewImageUrl, null)
                 )
             }
         } else {
             viewModelScope.launch {
-                favouriteRepository.removeFavouriteById(viewModel.id)
+                favouriteRepository.removeFavouriteById(context, viewModel.id)
             }
         }
     }

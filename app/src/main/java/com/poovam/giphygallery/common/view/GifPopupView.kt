@@ -23,12 +23,14 @@ class GifPopupView : DialogFragment() {
     companion object {
         private const val PREVIEW_GIF_URL = "PREVIEW_GIF_URL"
         private const val HIGH_QUALITY_GIF_URL = "HIGH_QUALITY_GIF_URL"
+        private const val LOCAL_PATH = "LOCAL_PATH"
 
-        fun newInstance(previewGifUrl: String, highQualityGifUrl: String): GifPopupView {
+        fun newInstance(previewGifUrl: String, highQualityGifUrl: String, localPath: String?): GifPopupView {
             val instance = GifPopupView()
             val args = Bundle()
             args.putString(PREVIEW_GIF_URL, previewGifUrl)
             args.putString(HIGH_QUALITY_GIF_URL, highQualityGifUrl)
+            args.putString(LOCAL_PATH, localPath)
             instance.arguments = args
             return instance
         }
@@ -53,6 +55,7 @@ class GifPopupView : DialogFragment() {
 
         val previewGifUrl = arguments?.getString(PREVIEW_GIF_URL)
         val originalUrl = arguments?.getString(HIGH_QUALITY_GIF_URL)
+        val localPath = arguments?.getString(LOCAL_PATH)
 
         share.setOnClickListener { shareGifUrl(originalUrl) }
 
@@ -64,6 +67,7 @@ class GifPopupView : DialogFragment() {
             view.context,
             previewGifUrl,
             originalUrl,
+            localPath,
             gifPopupView,
             shimmerDrawable
         )
