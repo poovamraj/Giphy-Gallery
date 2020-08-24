@@ -8,8 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.lottie.LottieDrawable.RESTART
 import com.poovam.giphygallery.R
 import com.poovam.giphygallery.common.network.Error
+import com.poovam.giphygallery.common.network.ErrorHandler
 import com.poovam.giphygallery.common.network.Loaded
 import com.poovam.giphygallery.common.network.Loading
 import com.poovam.giphygallery.common.view.GifPopupView
@@ -98,23 +100,47 @@ class TrendingAndSearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun onDataLoading(dataSetSize: Int) {
+        hideAnimations()
+        showRecyclerView()
         if (dataSetSize == 0) {
             swipeRefreshLayout.isRefreshing = true
         }
     }
 
     private fun onDataLoaded() {
+        hideAnimations()
+        showRecyclerView()
         swipeRefreshLayout.isRefreshing = false
     }
 
     private fun onErrorLoadingPage(errorMessage: String) {
         swipeRefreshLayout.isRefreshing = false
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        if (errorMessage == ErrorHandler.NO_INTERNET) {
+            recyclerView.visibility = View.GONE
+            playNoInternetAnimation()
+        }
     }
 
     private fun onGifClicked(viewModel: TrendingAndSearchModel) {
         GifPopupView
             .newInstance(viewModel.previewImageUrl, viewModel.originalUrl, null)
             .show(childFragmentManager, null)
+    }
+
+    private fun hideAnimations() {
+        noInternetAnimation.visibility = View.GONE
+        noInternetText.visibility = View.GONE
+    }
+
+    private fun playNoInternetAnimation() {
+        noInternetAnimation.visibility = View.VISIBLE
+        noInternetText.visibility = View.VISIBLE
+        noInternetAnimation.repeatMode = RESTART
+        noInternetAnimation.playAnimation()
+    }
+
+    private fun showRecyclerView() {
+        recyclerView.visibility = View.VISIBLE
     }
 }
