@@ -31,10 +31,12 @@ class ImageRenderer {
 
             glide = glide.thumbnail(thumbnailRequest)
 
-            val localRequest: RequestBuilder<Drawable> = Glide
-                .with(context)
-                .load(localPath)
-            glide = glide.thumbnail(localRequest)
+            localPath?.let {
+                val localRequest: RequestBuilder<Drawable> = Glide
+                    .with(context)
+                    .load(localPath)
+                glide = glide.thumbnail(localRequest)
+            }
 
             glide.placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
